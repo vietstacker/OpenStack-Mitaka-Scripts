@@ -57,7 +57,7 @@ bash ctl-3.keystone.sh
 
 - Declare enviroment parameter
 ```sh
-source admin-openrc.sh
+source admin-openrc
 ```
 
 ### Install GLANCE

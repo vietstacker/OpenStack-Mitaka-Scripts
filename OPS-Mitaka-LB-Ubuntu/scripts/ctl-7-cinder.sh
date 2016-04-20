@@ -15,26 +15,29 @@ EOF
 
 echocolor "Create  user, endpoint for CINDER"
 sleep 5
-openstack user create --password $CINDER_PASS cinder
+openstack user create  --domain default --password $CINDER_PASS cinder
 openstack role add --project service --user cinder admin
 openstack service create --name cinder --description "OpenStack Block Storage" volume
 openstack service create --name cinderv2 --description "OpenStack Block Storage" volumev2
 
+openstack endpoint create --region RegionOne \
+  volume public http://controller:8776/v1/%\(tenant_id\)s
 
-openstack endpoint create \
---publicurl http://$CTL_MGNT_IP:8776/v1/%\(tenant_id\)s \
---internalurl http://$CTL_MGNT_IP:8776/v1/%\(tenant_id\)s \
---adminurl http://$CTL_MGNT_IP:8776/v1/%\(tenant_id\)s \
---region RegionOne \
-volume
+openstack endpoint create --region RegionOne \
+  volume internal http://controller:8776/v1/%\(tenant_id\)s
 
+openstack endpoint create --region RegionOne \
+  volume admin http://controller:8776/v1/%\(tenant_id\)s
 
-openstack endpoint create \
---publicurl http://$CTL_MGNT_IP:8776/v2/%\(tenant_id\)s \
---internalurl http://$CTL_MGNT_IP:8776/v2/%\(tenant_id\)s \
---adminurl http://$CTL_MGNT_IP:8776/v2/%\(tenant_id\)s \
---region RegionOne \
-volumev2
+openstack endpoint create --region RegionOne \
+  volumev2 public http://controller:8776/v1/%\(tenant_id\)s
+
+openstack endpoint create --region RegionOne \
+  volumev2 internal http://controller:8776/v1/%\(tenant_id\)s
+
+openstack endpoint create --region RegionOne \
+  volumev2 admin http://controller:8776/v1/%\(tenant_id\)s
+	
 
 #
 echocolor "Install CINDER"
@@ -73,8 +76,8 @@ ops_edit $cinder_ctl oslo_messaging_rabbit rabbit_password $RABBIT_PASS
 ops_edit $cinder_ctl keystone_authtoken auth_uri http://$CTL_MGNT_IP:5000
 ops_edit $cinder_ctl keystone_authtoken auth_url http://$CTL_MGNT_IP:35357
 ops_edit $cinder_ctl keystone_authtoken auth_plugin password
-ops_edit $cinder_ctl keystone_authtoken project_domain_id default
-ops_edit $cinder_ctl keystone_authtoken user_domain_id default
+ops_edit $cinder_ctl keystone_authtoken project_domain_name default
+ops_edit $cinder_ctl keystone_authtoken user_domain_name default
 ops_edit $cinder_ctl keystone_authtoken project_name service
 ops_edit $cinder_ctl keystone_authtoken username cinder
 ops_edit $cinder_ctl keystone_authtoken password $CINDER_PASS

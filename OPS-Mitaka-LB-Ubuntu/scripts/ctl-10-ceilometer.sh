@@ -18,23 +18,23 @@ mongo --host $CTL_MGNT_IP ./mongo.js
 
 ## Tao user, endpoint va gan role cho CEILOMETER
 
-openstack user create --password $CEILOMETER_PASS ceilometer
+openstack user create  --domain default --password $CEILOMETER_PASS ceilometer
 openstack role add --project service --user ceilometer admin
 openstack service create --name ceilometer --description "Telemetry" metering
 
-openstack endpoint create \
---publicurl http://$CTL_MGNT_IP:8777 \
---internalurl http://$CTL_MGNT_IP:8777 \
---adminurl http://$CTL_MGNT_IP:8777 \
---region RegionOne \
-metering
+openstack endpoint create --region RegionOne \
+  metering public http://controller:8777
+  
+openstack endpoint create --region RegionOne \
+  metering internal http://controller:8777
+  
+openstack endpoint create --region RegionOne \
+  metering admin http://controller:8777
 
 # Cai dat cac goi trong CEILOMETER
-
-apt-get -y install ceilometer-api ceilometer-collector \
-ceilometer-agent-central ceilometer-agent-notification \
-ceilometer-alarm-evaluator ceilometer-alarm-notifier \
-python-ceilometerclient
+apt-get install ceilometer-api ceilometer-collector \
+  ceilometer-agent-central ceilometer-agent-notification \
+  python-ceilometerclient
 
 echocolor "Config ceilometer"
 sleep 5

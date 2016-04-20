@@ -29,7 +29,7 @@ su -
 apt-get update
 apt-get -y install git 
 
-git clone https://github.com/vietstacker/OpenStack-Mitaka-Scripts.git
+git clone https://github.com/congto/OpenStack-Mitaka-Scripts.git
 mv /root/OpenStack-Mitaka-Scripts/OPS-Mitaka-LB-Ubuntu/scripts/ /root/
 rm -rf OpenStack-Mitaka-Scripts/
 cd scripts/
@@ -57,7 +57,7 @@ bash ctl-3.keystone.sh
 
 - Declare enviroment parameter
 ```sh
-source admin-openrc
+source admin-openrc.sh
 ```
 
 ### Install GLANCE
@@ -91,7 +91,7 @@ su -
 apt-get update
 apt-get -y install git 
 
-git clone https://github.com/vietstacker/OpenStack-Mitaka-Scripts.git
+git clone https://github.com/congto/OpenStack-Mitaka-Scripts.git
 mv /root/OpenStack-Mitaka-Scripts/OPS-Mitaka-LB-Ubuntu/scripts/ /root/
 rm -rf OpenStack-Mitaka-Scripts/
 cd scripts/

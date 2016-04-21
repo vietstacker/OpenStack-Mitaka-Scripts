@@ -23,13 +23,13 @@ openstack role add --project service --user ceilometer admin
 openstack service create --name ceilometer --description "Telemetry" metering
 
 openstack endpoint create --region RegionOne \
-  metering public http://controller:8777
+  metering public http://CTL_MGNT_IP:8777
   
 openstack endpoint create --region RegionOne \
-  metering internal http://controller:8777
+  metering internal http://CTL_MGNT_IP:8777
   
 openstack endpoint create --region RegionOne \
-  metering admin http://controller:8777
+  metering admin http://CTL_MGNT_IP:8777
 
 # Cai dat cac goi trong CEILOMETER
 apt-get install ceilometer-api ceilometer-collector \

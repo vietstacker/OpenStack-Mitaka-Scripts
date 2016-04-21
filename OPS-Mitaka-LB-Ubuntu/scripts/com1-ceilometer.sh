@@ -4,11 +4,6 @@
 source config.cfg
 source functions.sh
 
-# Tool for editing configuration file
-apt-get -y install python-pip
-pip install \
-    https://pypi.python.org/packages/source/c/crudini/crudini-0.7.tar.gz
-
 ####################################
 # Ceilometer agent for Compute node #
 ####################################

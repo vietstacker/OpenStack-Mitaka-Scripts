@@ -390,9 +390,10 @@ Listen 35357
 ```
 
  - Tạo link để cấu hình virtual host cho dịch vụ `keysonte` trong `apache`
-		```sh
-		ln -s /etc/apache2/sites-available/wsgi-keystone.conf /etc/apache2/sites-enabled
-		```
+ 
+     ```sh
+     ln -s /etc/apache2/sites-available/wsgi-keystone.conf /etc/apache2/sites-enabled
+     ```
 
 - Khởi động lại `apache`
 	```sh
@@ -611,10 +612,11 @@ mysql -uroot -pWelcome123
 	openstack role add --project service --user glance admin
 	```
 
-	- Kiểm tra lại xem user `glance` có role là gì
-		```sh
-		openstack role list --user glance --project service
-		```
+- Kiểm tra lại xem user `glance` có role là gì
+
+```sh
+openstack role list --user glance --project service
+```
 	
 - Tạo dịch vụ có tên là `glance`
 	```sh
@@ -680,11 +682,12 @@ mysql -uroot -pWelcome123
 		flavor = keystone
 		```
  - Khai báo trong section `[glance_store]` nơi lưu trữ file image
-		```sh
-		stores = file,http
-		default_store = file
-		filesystem_store_datadir = /var/lib/glance/images/
-		```
+ 
+     ```sh
+     stores = file,http
+     default_store = file
+     filesystem_store_datadir = /var/lib/glance/images/
+     ```
 
 - Sửa các mục dưới đây trong hai file `/etc/glance/glance-registry.conf`
  - Trong section `[database]` :

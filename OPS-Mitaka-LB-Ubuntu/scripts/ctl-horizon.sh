@@ -8,14 +8,14 @@ echocolor "START INSTALLING OPS DASHBOARD"
 sleep 5
 
 echocolor "Installing Dashboard package"
-apt-get -y install openstack-dashboard 
+apt-get -y install openstack-dashboard
 apt-get -y remove --auto-remove openstack-dashboard-ubuntu-theme
 
 # echo "########## Fix bug in apache2 ##########"
 # sleep 5
 # Fix bug apache in ubuntu 14.04
 # echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf
-# sudo a2enconf servername 
+# sudo a2enconf servername
 
 echocolor "Creating redirect page"
 
@@ -35,13 +35,13 @@ cat << EOF >> $filehtml
 EOF
 
 cp /etc/openstack-dashboard/local_settings.py \
-	/etc/openstack-dashboard/local_settings.py.orig
-	
+    /etc/openstack-dashboard/local_settings.py.orig
+
 # Allowing insert password in dashboard ( only apply in image )
 sed -i "s/'can_set_password': False/'can_set_password': True/g" \
 /etc/openstack-dashboard/local_settings.py
 
-sed -i "s/_member_/user/g" /etc/openstack-dashboard/local_settings.py 
+sed -i "s/_member_/user/g" /etc/openstack-dashboard/local_settings.py
 sed -i "s/127.0.0.1/$CTL_MGNT_IP/g" /etc/openstack-dashboard/local_settings.py
 sed -i "s/http:\/\/\%s:5000\/v2.0/http:\/\/\%s:5000\/v3/g" \
 /etc/openstack-dashboard/local_settings.py
@@ -57,7 +57,7 @@ EOF
 
 sed -i "s/#OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = 'default'/\
 OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = 'default'/g" \
-/etc/openstack-dashboard/local_settings.py 
+/etc/openstack-dashboard/local_settings.py
 
 ## /* Restarting apache2 and memcached
 service apache2 restart

@@ -14,7 +14,7 @@ GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY '$NOVA_DBPASS';
 FLUSH PRIVILEGES;
 EOF
 
-echocolor "Creat user, endpoint for NOVA"
+echocolor "Create user, endpoint for NOVA"
 
 openstack user create nova --domain default  --password $NOVA_PASS
 
@@ -23,24 +23,20 @@ openstack role add --project service --user nova admin
 openstack service create --name nova --description "OpenStack Compute" compute
 
 openstack endpoint create --region RegionOne \
-        compute public http://$CTL_MGNT_IP:8774/v2.1/%\(tenant_id\)s
+    compute public http://$CTL_MGNT_IP:8774/v2.1/%\(tenant_id\)s
 
 openstack endpoint create --region RegionOne \
-        compute internal http://$CTL_MGNT_IP:8774/v2.1/%\(tenant_id\)s
+    compute internal http://$CTL_MGNT_IP:8774/v2.1/%\(tenant_id\)s
 
 openstack endpoint create --region RegionOne \
-        compute admin http://$CTL_MGNT_IP:8774/v2.1/%\(tenant_id\)s
+    compute admin http://$CTL_MGNT_IP:8774/v2.1/%\(tenant_id\)s
 
 
 echocolor "Install NOVA in $CTL_MGNT_IP"
 sleep 5
 apt-get -y install nova-api nova-cert \
-        nova-conductor nova-consoleauth \
-        nova-novncproxy nova-scheduler
-
-# Cai tu dong libguestfs-tools
-# echo "libguestfs-tools        libguestfs/update-appliance     boolean true"  | debconf-set-selections
-# apt-get -y install libguestfs-tools sysfsutils guestfsd python-guestfs
+    nova-conductor nova-consoleauth \
+    nova-novncproxy nova-scheduler
 
 ######## Backup configurations for NOVA ##########"
 sleep 7
@@ -63,7 +59,8 @@ ops_edit $nova_ctl DEFAULT auth_strategy keystone
 ops_edit $nova_ctl DEFAULT rootwrap_config /etc/nova/rootwrap.conf
 ops_edit $nova_ctl DEFAULT my_ip $CTL_MGNT_IP
 ops_edit $nova_ctl DEFAULT use_neutron True
-ops_edit $nova_ctl DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
+ops_edit $nova_ctl \
+    DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
 
 ops_edit $nova_ctl api_database \
 connection mysql+pymysql://nova:$NOVA_API_DBPASS@$CTL_MGNT_IP/nova_api

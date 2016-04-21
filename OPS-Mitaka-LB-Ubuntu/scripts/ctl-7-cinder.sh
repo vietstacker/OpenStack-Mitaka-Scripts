@@ -17,8 +17,10 @@ echocolor "Create  user, endpoint for CINDER"
 sleep 5
 openstack user create --password $CINDER_PASS cinder
 openstack role add --project service --user cinder admin
-openstack service create --name cinder --description "OpenStack Block Storage" volume
-openstack service create --name cinderv2 --description "OpenStack Block Storage" volumev2
+openstack service create --name cinder \
+    --description "OpenStack Block Storage" volume
+openstack service create --name cinderv2 \
+    --description "OpenStack Block Storage" volumev2
 
 
 openstack endpoint create \
@@ -40,13 +42,13 @@ volumev2
 echocolor "Install CINDER"
 sleep 3
 apt-get install -y cinder-api cinder-scheduler python-cinderclient \
-	lvm2 cinder-volume python-mysqldb  qemu 
+    lvm2 cinder-volume python-mysqldb  qemu
 
 
 pvcreate /dev/vdb
 vgcreate cinder-volumes /dev/vdb
 sed  -r -i 's#(filter = )(\[ "a/\.\*/" \])#\1["a\/vdb\/", "r/\.\*\/"]#g' \
-	/etc/lvm/lvm.conf
+    /etc/lvm/lvm.conf
 
 cinder_ctl=/etc/cinder/cinder.conf
 test -f $cinder_ctl.orig || cp $cinder_ctl $cinder_ctl.orig
@@ -93,7 +95,7 @@ ops_edit $cinder_ctl lvm iscsi_helper tgtadm
 echocolor "Syncing Cinder DB"
 sleep 3
 su -s /bin/sh -c "cinder-manage db sync" cinder
- 
+
 echocolor "Restarting CINDER service"
 sleep 3
 service tgt restart

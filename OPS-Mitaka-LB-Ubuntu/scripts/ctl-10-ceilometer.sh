@@ -1,4 +1,5 @@
 #!/bin/bash -ex
+
 source config.cfg
 source functions.sh
 
@@ -16,7 +17,7 @@ EOF
 sleep 20
 mongo --host $CTL_MGNT_IP ./mongo.js
 
-## Tao user, endpoint va gan role cho CEILOMETER
+## Create user, endpoint and assign role to CEILOMETER
 
 openstack user create --password $CEILOMETER_PASS ceilometer
 openstack role add --project service --user ceilometer admin
@@ -29,14 +30,14 @@ openstack endpoint create \
 --region RegionOne \
 metering
 
-# Cai dat cac goi trong CEILOMETER
+# Install package dependencies of CEILOMETER
 
 apt-get -y install ceilometer-api ceilometer-collector \
 ceilometer-agent-central ceilometer-agent-notification \
 ceilometer-alarm-evaluator ceilometer-alarm-notifier \
 python-ceilometerclient
 
-echocolor "Config ceilometer"
+echocolor "Configuring ceilometer"
 sleep 5
 
 ceilometer_ctl=/etc/ceilometer/ceilometer.conf
@@ -49,7 +50,8 @@ ops_edit $ceilometer_ctl DEFAULT auth_strategy keystone
 
 ## [database] section
 ops_edit $ceilometer_ctl database \
-connection mongodb://ceilometer:$CEILOMETER_DBPASS@$CTL_MGNT_IP:27017/ceilometer
+connection \
+    mongodb://ceilometer:$CEILOMETER_DBPASS@$CTL_MGNT_IP:27017/ceilometer
 
 ## [keystone_authtoken] section
 ops_edit $ceilometer_ctl keystone_authtoken auth_uri http://$CTL_MGNT_IP:5000
@@ -79,7 +81,7 @@ ops_edit $ceilometer_ctl oslo_messaging_rabbit rabbit_password $RABBIT_PASS
 
 EOF
 
-echocolor "Restart service"
+echocolor "Restarting service"
 sleep 3
 service ceilometer-agent-central restart
 service ceilometer-agent-notification restart
@@ -88,7 +90,7 @@ service ceilometer-collector restart
 service ceilometer-alarm-evaluator restart
 service ceilometer-alarm-notifier restart
 
-echo "Restart service"
+echo "Restarting service"
 sleep 10
 service ceilometer-agent-central restart
 service ceilometer-agent-notification restart
@@ -96,4 +98,3 @@ service ceilometer-api restart
 service ceilometer-collector restart
 service ceilometer-alarm-evaluator restart
 service ceilometer-alarm-notifier restart
-

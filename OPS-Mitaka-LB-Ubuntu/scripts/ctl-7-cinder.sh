@@ -21,22 +21,22 @@ openstack service create --name cinder --description "OpenStack Block Storage" v
 openstack service create --name cinderv2 --description "OpenStack Block Storage" volumev2
 
 openstack endpoint create --region RegionOne \
-  volume public http://CTL_MGNT_IP:8776/v1/%\(tenant_id\)s
+  volume public http://$CTL_MGNT_IP:8776/v1/%\(tenant_id\)s
 
 openstack endpoint create --region RegionOne \
-  volume internal http://CTL_MGNT_IP:8776/v1/%\(tenant_id\)s
+  volume internal http://$CTL_MGNT_IP:8776/v1/%\(tenant_id\)s
 
 openstack endpoint create --region RegionOne \
-  volume admin http://CTL_MGNT_IP:8776/v1/%\(tenant_id\)s
+  volume admin http://$CTL_MGNT_IP:8776/v1/%\(tenant_id\)s
 
 openstack endpoint create --region RegionOne \
-  volumev2 public http://CTL_MGNT_IP:8776/v2/%\(tenant_id\)s
+  volumev2 public http://$CTL_MGNT_IP:8776/v2/%\(tenant_id\)s
 
 openstack endpoint create --region RegionOne \
-  volumev2 internal http://CTL_MGNT_IP:8776/v2/%\(tenant_id\)s
+  volumev2 internal http://$CTL_MGNT_IP:8776/v2/%\(tenant_id\)s
 
 openstack endpoint create --region RegionOne \
-  volumev2 admin http://CTL_MGNT_IP:8776/v2/%\(tenant_id\)s
+  volumev2 admin http://$CTL_MGNT_IP:8776/v2/%\(tenant_id\)s
 	
 
 #
@@ -75,7 +75,7 @@ ops_edit $cinder_ctl oslo_messaging_rabbit rabbit_password $RABBIT_PASS
 ## [keystone_authtoken] section
 ops_edit $cinder_ctl keystone_authtoken auth_uri http://$CTL_MGNT_IP:5000
 ops_edit $cinder_ctl keystone_authtoken auth_url http://$CTL_MGNT_IP:35357
-ops_edit $cinder_ctl keystone_authtoken auth_plugin password
+ops_edit $cinder_ctl keystone_authtoken auth_type password
 ops_edit $cinder_ctl keystone_authtoken project_domain_name default
 ops_edit $cinder_ctl keystone_authtoken user_domain_name default
 ops_edit $cinder_ctl keystone_authtoken project_name service

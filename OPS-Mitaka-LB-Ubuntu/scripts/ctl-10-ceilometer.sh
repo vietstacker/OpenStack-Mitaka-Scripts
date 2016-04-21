@@ -23,13 +23,13 @@ openstack role add --project service --user ceilometer admin
 openstack service create --name ceilometer --description "Telemetry" metering
 
 openstack endpoint create --region RegionOne \
-  metering public http://CTL_MGNT_IP:8777
+  metering public http://$CTL_MGNT_IP:8777
   
 openstack endpoint create --region RegionOne \
-  metering internal http://CTL_MGNT_IP:8777
+  metering internal http://$CTL_MGNT_IP:8777
   
 openstack endpoint create --region RegionOne \
-  metering admin http://CTL_MGNT_IP:8777
+  metering admin http://$CTL_MGNT_IP:8777
 
 # Cai dat cac goi trong CEILOMETER
 apt-get install ceilometer-api ceilometer-collector \
@@ -54,7 +54,7 @@ connection mongodb://ceilometer:$CEILOMETER_DBPASS@$CTL_MGNT_IP:27017/ceilometer
 ## [keystone_authtoken] section
 ops_edit $ceilometer_ctl keystone_authtoken auth_uri http://$CTL_MGNT_IP:5000
 ops_edit $ceilometer_ctl keystone_authtoken auth_url http://$CTL_MGNT_IP:35357
-ops_edit $ceilometer_ctl keystone_authtoken auth_plugin password
+ops_edit $ceilometer_ctl keystone_authtoken auth_type password
 ops_edit $ceilometer_ctl keystone_authtoken project_domain_id default
 ops_edit $ceilometer_ctl keystone_authtoken user_domain_id default
 ops_edit $ceilometer_ctl keystone_authtoken project_name service

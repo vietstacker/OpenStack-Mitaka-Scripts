@@ -1,5 +1,4 @@
 #!/bin/bash -ex
-
 source config.cfg
 source functions.sh
 
@@ -17,27 +16,27 @@ EOF
 sleep 20
 mongo --host $CTL_MGNT_IP ./mongo.js
 
-## Create user, endpoint and assign role to CEILOMETER
+## Tao user, endpoint va gan role cho CEILOMETER
 
-openstack user create --password $CEILOMETER_PASS ceilometer
+openstack user create  --domain default --password $CEILOMETER_PASS ceilometer
 openstack role add --project service --user ceilometer admin
 openstack service create --name ceilometer --description "Telemetry" metering
 
-openstack endpoint create \
---publicurl http://$CTL_MGNT_IP:8777 \
---internalurl http://$CTL_MGNT_IP:8777 \
---adminurl http://$CTL_MGNT_IP:8777 \
---region RegionOne \
-metering
+openstack endpoint create --region RegionOne \
+  metering public http://$CTL_MGNT_IP:8777
+  
+openstack endpoint create --region RegionOne \
+  metering internal http://$CTL_MGNT_IP:8777
+  
+openstack endpoint create --region RegionOne \
+  metering admin http://$CTL_MGNT_IP:8777
 
-# Install package dependencies of CEILOMETER
+# Cai dat cac goi trong CEILOMETER
+apt-get install ceilometer-api ceilometer-collector \
+  ceilometer-agent-central ceilometer-agent-notification \
+  python-ceilometerclient
 
-apt-get -y install ceilometer-api ceilometer-collector \
-ceilometer-agent-central ceilometer-agent-notification \
-ceilometer-alarm-evaluator ceilometer-alarm-notifier \
-python-ceilometerclient
-
-echocolor "Configuring ceilometer"
+echocolor "Config ceilometer"
 sleep 5
 
 ceilometer_ctl=/etc/ceilometer/ceilometer.conf
@@ -50,13 +49,12 @@ ops_edit $ceilometer_ctl DEFAULT auth_strategy keystone
 
 ## [database] section
 ops_edit $ceilometer_ctl database \
-connection \
-    mongodb://ceilometer:$CEILOMETER_DBPASS@$CTL_MGNT_IP:27017/ceilometer
+connection mongodb://ceilometer:$CEILOMETER_DBPASS@$CTL_MGNT_IP:27017/ceilometer
 
 ## [keystone_authtoken] section
 ops_edit $ceilometer_ctl keystone_authtoken auth_uri http://$CTL_MGNT_IP:5000
 ops_edit $ceilometer_ctl keystone_authtoken auth_url http://$CTL_MGNT_IP:35357
-ops_edit $ceilometer_ctl keystone_authtoken auth_plugin password
+ops_edit $ceilometer_ctl keystone_authtoken auth_type password
 ops_edit $ceilometer_ctl keystone_authtoken project_domain_id default
 ops_edit $ceilometer_ctl keystone_authtoken user_domain_id default
 ops_edit $ceilometer_ctl keystone_authtoken project_name service
@@ -66,7 +64,7 @@ ops_edit $ceilometer_ctl keystone_authtoken password $CEILOMETER_PASS
 
 ## [service_credentials] section
 ops_edit $ceilometer_ctl service_credentials \
-    os_auth_url http://$CTL_MGNT_IP:5000/v2.0
+os_auth_url http://$CTL_MGNT_IP:5000/v2.0
 ops_edit $ceilometer_ctl service_credentials os_username ceilometer
 ops_edit $ceilometer_ctl service_credentials os_tenant_name service
 ops_edit $ceilometer_ctl service_credentials os_password $CEILOMETER_PASS
@@ -81,7 +79,7 @@ ops_edit $ceilometer_ctl oslo_messaging_rabbit rabbit_password $RABBIT_PASS
 
 EOF
 
-echocolor "Restarting service"
+echocolor "Restart service"
 sleep 3
 service ceilometer-agent-central restart
 service ceilometer-agent-notification restart
@@ -90,7 +88,7 @@ service ceilometer-collector restart
 service ceilometer-alarm-evaluator restart
 service ceilometer-alarm-notifier restart
 
-echo "Restarting service"
+echo "Restart service"
 sleep 10
 service ceilometer-agent-central restart
 service ceilometer-agent-notification restart
@@ -98,3 +96,4 @@ service ceilometer-api restart
 service ceilometer-collector restart
 service ceilometer-alarm-evaluator restart
 service ceilometer-alarm-notifier restart
+

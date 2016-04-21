@@ -22,6 +22,7 @@ CPU: 2x2, VT supported
 NIC1: eth0: 10.10.10.0/24 (interntel range, using vmnet or hostonly in VMware Workstation)
 NIC2: eth1: 172.16.69.0/24, gateway 172.16.69.1 (external range - using NAT or Bridge VMware Workstation  )
 HDD: +100GB
+Optional: HDD: +100GB (for cinder-volume)
 ```
 
 ### Execute script

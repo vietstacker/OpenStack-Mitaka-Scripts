@@ -21,22 +21,22 @@ openstack service create --name cinder --description "OpenStack Block Storage" v
 openstack service create --name cinderv2 --description "OpenStack Block Storage" volumev2
 
 openstack endpoint create --region RegionOne \
-  volume public http://controller:8776/v1/%\(tenant_id\)s
+  volume public http://CTL_MGNT_IP:8776/v1/%\(tenant_id\)s
 
 openstack endpoint create --region RegionOne \
-  volume internal http://controller:8776/v1/%\(tenant_id\)s
+  volume internal http://CTL_MGNT_IP:8776/v1/%\(tenant_id\)s
 
 openstack endpoint create --region RegionOne \
-  volume admin http://controller:8776/v1/%\(tenant_id\)s
+  volume admin http://CTL_MGNT_IP:8776/v1/%\(tenant_id\)s
 
 openstack endpoint create --region RegionOne \
-  volumev2 public http://controller:8776/v1/%\(tenant_id\)s
+  volumev2 public http://CTL_MGNT_IP:8776/v2/%\(tenant_id\)s
 
 openstack endpoint create --region RegionOne \
-  volumev2 internal http://controller:8776/v1/%\(tenant_id\)s
+  volumev2 internal http://CTL_MGNT_IP:8776/v2/%\(tenant_id\)s
 
 openstack endpoint create --region RegionOne \
-  volumev2 admin http://controller:8776/v1/%\(tenant_id\)s
+  volumev2 admin http://CTL_MGNT_IP:8776/v2/%\(tenant_id\)s
 	
 
 #

@@ -63,10 +63,10 @@ ops_edit $nova_ctl \
     DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
 
 ops_edit $nova_ctl api_database \
-connection mysql+pymysql://nova:$NOVA_API_DBPASS@$CTL_MGNT_IP/nova_api
+    connection mysql+pymysql://nova:$NOVA_API_DBPASS@$CTL_MGNT_IP/nova_api
 
 ops_edit $nova_ctl database \
-connection mysql+pymysql://nova:$NOVA_DBPASS@$CTL_MGNT_IP/nova
+    connection mysql+pymysql://nova:$NOVA_DBPASS@$CTL_MGNT_IP/nova
 
 ops_edit $nova_ctl oslo_messaging_rabbit rabbit_host $CTL_MGNT_IP
 ops_edit $nova_ctl oslo_messaging_rabbit rabbit_userid openstack

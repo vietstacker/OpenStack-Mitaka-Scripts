@@ -29,7 +29,7 @@ cat << EOF >> $filehtml
 <META HTTP-EQUIV="Refresh" Content="0.5; URL=http://$CTL_EXT_IP/horizon">
 </head>
 <body>
-<center> <h1>Dang chuyen den Dashboard cua OpenStack</h1> </center>
+<center> <h1>Redirecting to OpenStack Dashboard</h1> </center>
 </body>
 </html>
 EOF

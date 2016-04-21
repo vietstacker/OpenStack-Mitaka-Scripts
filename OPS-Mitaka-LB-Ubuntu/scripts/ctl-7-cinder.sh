@@ -24,19 +24,19 @@ openstack service create --name cinderv2 \
 
 
 openstack endpoint create \
---publicurl http://$CTL_MGNT_IP:8776/v1/%\(tenant_id\)s \
---internalurl http://$CTL_MGNT_IP:8776/v1/%\(tenant_id\)s \
---adminurl http://$CTL_MGNT_IP:8776/v1/%\(tenant_id\)s \
---region RegionOne \
-volume
+    --publicurl http://$CTL_MGNT_IP:8776/v1/%\(tenant_id\)s \
+    --internalurl http://$CTL_MGNT_IP:8776/v1/%\(tenant_id\)s \
+    --adminurl http://$CTL_MGNT_IP:8776/v1/%\(tenant_id\)s \
+    --region RegionOne \
+    volume
 
 
 openstack endpoint create \
---publicurl http://$CTL_MGNT_IP:8776/v2/%\(tenant_id\)s \
---internalurl http://$CTL_MGNT_IP:8776/v2/%\(tenant_id\)s \
---adminurl http://$CTL_MGNT_IP:8776/v2/%\(tenant_id\)s \
---region RegionOne \
-volumev2
+    --publicurl http://$CTL_MGNT_IP:8776/v2/%\(tenant_id\)s \
+    --internalurl http://$CTL_MGNT_IP:8776/v2/%\(tenant_id\)s \
+    --adminurl http://$CTL_MGNT_IP:8776/v2/%\(tenant_id\)s \
+    --region RegionOne \
+    volumev2
 
 #
 echocolor "Install CINDER"
@@ -64,7 +64,7 @@ ops_edit $cinder_ctl DEFAULT notification_driver messagingv2
 
 ## [database] section
 ops_edit $cinder_ctl database \
-connection mysql+pymysql://cinder:$CINDER_DBPASS@$CTL_MGNT_IP/cinder
+    connection mysql+pymysql://cinder:$CINDER_DBPASS@$CTL_MGNT_IP/cinder
 
 ## [oslo_messaging_rabbit] section
 ops_edit $cinder_ctl oslo_messaging_rabbit rabbit_host $CTL_MGNT_IP
@@ -86,7 +86,7 @@ ops_edit $cinder_ctl oslo_concurrency lock_path /var/lib/cinder/tmp
 
 ## [lvm] section
 ops_edit $cinder_ctl lvm \
-volume_driver cinder.volume.drivers.lvm.LVMVolumeDriver
+    volume_driver cinder.volume.drivers.lvm.LVMVolumeDriver
 ops_edit $cinder_ctl lvm volume_group cinder-volumes
 ops_edit $cinder_ctl lvm iscsi_protocol iscsi
 ops_edit $cinder_ctl lvm iscsi_helper tgtadm

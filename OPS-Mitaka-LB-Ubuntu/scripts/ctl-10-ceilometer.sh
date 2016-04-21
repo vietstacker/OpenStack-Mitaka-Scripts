@@ -66,7 +66,7 @@ ops_edit $ceilometer_ctl keystone_authtoken password $CEILOMETER_PASS
 
 ## [service_credentials] section
 ops_edit $ceilometer_ctl service_credentials \
-os_auth_url http://$CTL_MGNT_IP:5000/v2.0
+    os_auth_url http://$CTL_MGNT_IP:5000/v2.0
 ops_edit $ceilometer_ctl service_credentials os_username ceilometer
 ops_edit $ceilometer_ctl service_credentials os_tenant_name service
 ops_edit $ceilometer_ctl service_credentials os_password $CEILOMETER_PASS

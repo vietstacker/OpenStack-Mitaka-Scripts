@@ -3,6 +3,10 @@
 ### Prepare LAB enviroment
 - Using in VMware Workstation or Virtualbox ... enviroment
 
+### Network Layout
+- Using 2 node: CONTROLLER & COMPUTE
+![Mitaka-topo-2node.png](./images/Mitaka-topo-2node.png)
+
 #### Configure CONTROLLER NODE
 ```sh
 OS: Ubuntu Server 14.04 64 bit

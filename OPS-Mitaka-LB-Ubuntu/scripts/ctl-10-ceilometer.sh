@@ -23,18 +23,18 @@ openstack role add --project service --user ceilometer admin
 openstack service create --name ceilometer --description "Telemetry" metering
 
 openstack endpoint create --region RegionOne \
-  metering public http://$CTL_MGNT_IP:8777
-  
+    metering public http://$CTL_MGNT_IP:8777
+
 openstack endpoint create --region RegionOne \
-  metering internal http://$CTL_MGNT_IP:8777
-  
+    metering internal http://$CTL_MGNT_IP:8777
+
 openstack endpoint create --region RegionOne \
-  metering admin http://$CTL_MGNT_IP:8777
+    metering admin http://$CTL_MGNT_IP:8777
 
 # Install ceilometer dependencies
 apt-get install -y ceilometer-api ceilometer-collector \
-  ceilometer-agent-central ceilometer-agent-notification \
-  python-ceilometerclient
+    ceilometer-agent-central ceilometer-agent-notification \
+    python-ceilometerclient
 
 echocolor "Config ceilometer"
 sleep 5
@@ -48,8 +48,8 @@ ops_edit $ceilometer_ctl DEFAULT rpc_backend rabbit
 ops_edit $ceilometer_ctl DEFAULT auth_strategy keystone
 
 ## [database] section
-ops_edit $ceilometer_ctl database \
-connection mongodb://ceilometer:$CEILOMETER_DBPASS@$CTL_MGNT_IP:27017/ceilometer
+ops_edit $ceilometer_ctl database connection \
+    mongodb://ceilometer:$CEILOMETER_DBPASS@$CTL_MGNT_IP:27017/ceilometer
 
 ## [keystone_authtoken] section
 ops_edit $ceilometer_ctl keystone_authtoken auth_uri http://$CTL_MGNT_IP:5000
@@ -96,4 +96,3 @@ service ceilometer-api restart
 service ceilometer-collector restart
 service ceilometer-alarm-evaluator restart
 service ceilometer-alarm-notifier restart
-

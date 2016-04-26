@@ -1315,6 +1315,7 @@ openstack role list --user glance --project service
 	```
 
 - Sao lưu lại file cấu hình cho dashboad 
+
 ``sh
 cp /etc/openstack-dashboard/local_settings.py /etc/openstack-dashboard/local_settings.py.orig
 ```

@@ -494,7 +494,7 @@ Listen 35357
 #### 3.1.5. Kiểm chứng lại các bước cài đặt `keysonte`
 
 
-- Vô hiệu hóa cơ chế xác thực bằng token tạm thời trong `keysonte` bằng cách chỉnh sửa dòng `admin_token_auth` trong các section `[pipeline:public_api]`,  `[pipeline:admin_api]`  và `[pipeline:api_v3]` của file `/etc/keystone/keystone-paste.ini`
+- Vô hiệu hóa cơ chế xác thực bằng token tạm thời trong `keysonte` bằng cách xóa `admin_token_auth` trong các section `[pipeline:public_api]`,  `[pipeline:admin_api]`  và `[pipeline:api_v3]` của file `/etc/keystone/keystone-paste.ini`
 
 - Bỏ thiết lập trong biến môi trường của `OS_TOKEN` và `OS_URL` bằng lệnh
 	```sh
@@ -1838,5 +1838,5 @@ External Network: check
 - Nhập mật khẩu với thông tin dưới
 ```sh
 user: cirros
-password: cubsin:)
+password: cubswin:)
 ```

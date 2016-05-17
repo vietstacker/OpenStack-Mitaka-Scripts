@@ -1316,7 +1316,7 @@ openstack role list --user glance --project service
 
 - Sao lưu lại file cấu hình cho dashboad 
 
-``sh
+```sh
 cp /etc/openstack-dashboard/local_settings.py /etc/openstack-dashboard/local_settings.py.orig
 ```
 
@@ -1326,9 +1326,6 @@ cp /etc/openstack-dashboard/local_settings.py /etc/openstack-dashboard/local_set
 OPENSTACK_HOST = "controller"
 ```
 
-```sh
-ALLOWED_HOSTS = ['*', ]
-```
 
 ```
 

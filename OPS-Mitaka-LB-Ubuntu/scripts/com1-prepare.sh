@@ -31,7 +31,6 @@ cp $ntpfile $ntpfile.orig
 sed -i "s/server 0.debian.pool.ntp.org offline minpoll 8/ \
 server $CTL_MGNT_IP iburst/g" $ntpfile
 
-
 sed -i 's/server 1.debian.pool.ntp.org offline minpoll 8/ \
 # server 1.debian.pool.ntp.org offline minpoll 8/g' $ntpfile
 
@@ -40,7 +39,6 @@ sed -i 's/server 2.debian.pool.ntp.org offline minpoll 8/ \
 
 sed -i 's/server 3.debian.pool.ntp.org offline minpoll 8/ \
 # server 3.debian.pool.ntp.org offline minpoll 8/g' $ntpfile
-
 
 sleep 5
 echocolor "Installl package for NOVA"
@@ -83,7 +81,6 @@ ops_edit $nova_com oslo_messaging_rabbit rabbit_host $CTL_MGNT_IP
 ops_edit $nova_com oslo_messaging_rabbit rabbit_userid openstack
 ops_edit $nova_com oslo_messaging_rabbit rabbit_password $RABBIT_PASS
 
-
 ## [keystone_authtoken] section
 ops_edit $nova_com keystone_authtoken auth_uri http://$CTL_MGNT_IP:5000
 ops_edit $nova_com keystone_authtoken auth_url http://$CTL_MGNT_IP:35357
@@ -121,6 +118,9 @@ ops_edit $nova_com neutron region_name RegionOne
 ops_edit $nova_com neutron project_name service
 ops_edit $nova_com neutron username neutron
 ops_edit $nova_com neutron password $NEUTRON_PASS
+
+## [libvirt] section 
+ops_edit $nova_com libvirt virt_type qemu
 
 echocolor "Restart nova-compute"
 sleep 5

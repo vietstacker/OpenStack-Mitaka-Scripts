@@ -101,6 +101,10 @@ ops_edit $nova_ctl neutron password $NEUTRON_PASS
 ops_edit $nova_ctl neutron service_metadata_proxy True
 ops_edit $nova_ctl neutron metadata_proxy_shared_secret $METADATA_SECRET
 
+## [libvirt] section 
+ops_edit $nova_ctl libvirt virt_type qemu
+
+
 
 ##########
 
